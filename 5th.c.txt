@@ -1,0 +1,153 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct bstnode //This structure represents a node in the BST and contains an integer data value, as well as pointers to the left and right child nodes.
+{
+    int data;
+    struct bstnode *left,*right;
+}bstnode;
+
+bstnode *insert(bstnode *root ,int x);
+bstnode *create()
+{
+    int n,x,i;
+    bstnode *root;
+    root=NULL;
+    printf("enter the number of nodes\n");
+    scanf("%d",&n);
+    printf("enter tree values");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        root=insert(root,x);
+    }
+    return(root);
+}
+bstnode *insert(bstnode *root,int x) //It takes two arguments: the current root of the BST and the value to be inserted.
+{
+  bstnode *p,*q,*r;
+  r=(bstnode*)malloc(sizeof(bstnode));
+  r->data=x;
+  r->left=NULL;
+  r->right=NULL;
+  if(root==NULL)
+    return r;
+  p=root;
+  while(p!=NULL)
+  {
+      q=p;
+      if(x>p->data)
+
+        p=p->right;
+      else if(x<p->data)
+      p=p->left;
+      else if(x==p->data)
+      {
+          printf("duplicate entry");
+          return(root);
+      }
+  }
+      if(x>q->data)
+        q->right=r;
+      else if(x<q->data)
+        q->left=r;
+      return root;
+  }
+void inorder(bstnode *T)
+{
+    if(T!=NULL)
+    {
+     inorder(T->left);
+     printf("%d \t",T->data);
+     inorder(T->right);
+    }
+}
+
+void preorder(bstnode *T)
+{
+    if(T!=NULL)
+    {
+     printf("%d\t",T->data);
+     inorder(T->left);
+     inorder(T->right);
+    }
+}
+
+void postorder(bstnode *T)
+{
+    if(T!=NULL)
+    {
+     inorder(T->left);
+     inorder(T->right);
+     printf("%d\t",T->data);
+    }
+}
+
+/*Function to search a BST node*/
+bstnode *search(bstnode *root,int x)
+    {
+    while(root!=NULL)
+    {
+    if(x==root->data)
+    return(root);
+    else if(x>root->data)
+    root=root->right;
+    else if(x<root->data)
+    root=root->left;
+    }
+    return(NULL);
+    }
+
+
+int main()
+{
+    int ch,x,p;
+    bstnode *root=NULL;
+do{
+    printf("\n 1.create\n 2.search\n 3.insert\n 4.inorder traversal\n 5.preorder traversal\n 6.postorder traversal\nEnter your choice: ");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+    case 1:
+        printf("create\n");
+        root=create();
+        break;
+
+    case 2:
+        printf("\nEnter the key to be searched \n");
+        scanf("%d",&x);
+        p=search(root,x);
+        if(p==NULL)
+        printf("\n Not Found");
+        else
+        printf("\n Found ");
+        break;
+
+    case 3:
+        printf("insert\n");
+        printf("enter the data to b e inserted");
+        scanf("%d",&x);
+        root=insert(root,x);
+        break;
+    case 4:
+        printf("inorder traversal\n");
+        inorder(root);
+        break;
+
+    case 5:
+        printf("preorder traversal\n");
+        preorder(root);
+        break;
+    case 6:
+        printf("postorder traversal\n");
+        postorder(root);
+        break;
+    case 7:
+        printf("exit\n");
+        break;
+    }
+   }while(ch!=7);
+
+    return 0;
+}
+

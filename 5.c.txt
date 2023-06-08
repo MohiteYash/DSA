@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+struct node *root=NULL;
+struct node *p;
+struct node *insert(struct node * , int );
+struct node *search(struct node *, int);
+void inorder (struct node *);
+void preorder (struct node *);
+void postorder (struct node *);
+
+void main ()
+{
+    int n,i,D,x;
+    printf("how many data element want to be insert ");
+    scanf("%d",&n);
+    for (i=0;i<n;i++)
+    {
+        printf("enter the data");
+        scanf("%d",&D);
+        root=insert(root,D);
+
+    }
+    printf("enter the key to be search");
+    scanf("%d",&x);
+    p=search(root,x);
+    if(p==NULL)
+    {
+        printf("not found");
+    }else
+    {
+        printf("found the key element %d",x);
+    }
+    printf("\ninorder traversal");
+    inorder(root);
+    printf("preorder traversal");
+    preorder (root);
+    printf("post order traversal");
+    postorder(root);
+
+}
+
+struct node *insert (struct node *root1 , int D)
+{
+    if (root1==NULL)
+    {
+        root1=(struct node*)malloc(sizeof(struct node));
+        root1->data=D;
+        root1->left=NULL;
+        root1->right=NULL;
+
+    }
+    else if (D < root1-> data)
+    {
+        root1-> left=insert (root1->left,D);
+
+    }
+    else
+    {
+        root1-> right=insert (root1->right,D);
+    }
+    return root1;
+}
+
+struct node *search (struct node *root ,int x)
+{
+  while (root != NULL)
+  {
+      if(x==root->data)
+      {
+          return(root);
+      }
+      else if(x>root->data)
+      {
+          root=root->right;
+      }
+      else if (x<root->data)
+      {
+          root=root->left;
+      }}
+      return(NULL);
+
+}
+void inorder(struct node * root)
+{
+    if(root != NULL)
+    {
+        inorder (root -> left);
+        printf("\n%d",root->data);
+        inorder(root->right);
+
+    }
+}
+
+void preorder(struct node * root)
+{
+    if(root !=NULL)
+    {
+        printf("\n%d",root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void postorder (struct node * root)
+{
+    if(root != NULL)
+    {
+        postorder(root->left);
+        postorder(root->right);
+        printf("\n%d",root->data);
+    }
+}
